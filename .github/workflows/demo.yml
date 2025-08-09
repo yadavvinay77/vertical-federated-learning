@@ -1,0 +1,41 @@
+name: VFL Demo
+
+on: [push, pull_request]
+
+jobs:
+  build_and_run_demo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Cache pip
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Prepare data
+      run: python data/prepare_data.py
+
+    - name: Run VFL demo
+      run: python run_all.py
+
+    - name: Upload trained model artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: trained-models
+        path: |
+          vfl_model_client1.npz
+          vfl_model_client2.npz
+          vfl_model_server.npz

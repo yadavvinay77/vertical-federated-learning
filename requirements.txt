@@ -1,0 +1,8 @@
+numpy
+pandas
+pyyaml
+scikit-learn
+# Optional: TenSEAL for real homomorphic encryption
+tenseal
+tqdm
+colorama
