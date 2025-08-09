@@ -28,6 +28,9 @@ jobs:
     - name: Prepare data
       run: python data/prepare_data.py
 
+    - name: List data directory for verification
+      run: ls -l data
+
     - name: Run VFL demo
       run: python run_all.py
 
